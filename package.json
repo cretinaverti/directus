@@ -1,0 +1,39 @@
+{
+  "name": "directus",
+  "version": "1.0.0",
+  "description": "App using Directus",
+  "license": "UNLICENSED",
+  "scripts": {
+    "lint": "eslint --fix --ext .ts,.tsx,.js,.jsx .",
+    "start": "directus start"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix"
+    ]
+  },
+  "dependencies": {
+    "directus": "^9.2.0",
+    "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
+    "eslint": "^8.4.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.2",
+    "prettier": "^2.5.0"
+  },
+  "engines": {
+    "node": ">=16.x"
+  }
+}

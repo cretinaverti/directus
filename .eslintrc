@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "plugin:prettier/recommended" // Disable some ESLint rules through `eslint-config-prettier` AND set Prettier as a plugin of ESLint.
+  ],
+  "plugins": ["import", "simple-import-sort"],
+  "rules": {
+    "simple-import-sort/imports": "error",
+    "sort-imports": "off",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error"
+  }
+}

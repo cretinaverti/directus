@@ -1,0 +1,51 @@
+version: "3.2"
+services:
+  #
+  # Database
+  #
+  database:
+    restart: always
+
+  #
+  # Cache
+  #
+  cache:
+    restart: always
+
+  #
+  # Directus instance.
+  # This should serve directus and won't work before database
+  # is properly installed by running the installer.
+  #
+  directus:
+    networks:
+      - https
+    labels:
+      caddy: your-domain.x
+      caddy.reverse_proxy: "{{upstreams 8055}}"
+    restart: always
+
+  #
+  # Caddy for HTTPS
+  # https://caddyserver.com/docs/
+  #
+  reverse-proxy:
+    container_name: reverse-proxy
+    image: lucaslorentz/caddy-docker-proxy:2.3.4
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - https
+    restart: always
+
+networks:
+  https:
+
+volumes:
+  caddy_data:
+  caddy_config:

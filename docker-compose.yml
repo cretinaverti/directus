@@ -1,0 +1,63 @@
+version: "3.2"
+services:
+  #
+  # Database
+  #
+  database:
+    container_name: database
+    image: postgres:13-alpine
+    ports:
+      - 5432:5432
+    env_file: config/.database.env.example
+    networks:
+      - database
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+  #
+  # Cache
+  #
+  cache:
+    container_name: cache
+    image: redis:6
+    networks:
+      - database
+    ports:
+      - 6379:6379
+
+  #
+  # Directus instance.
+  # This should serve directus and won't work before database
+  # is properly installed by running the installer.
+  #
+  directus:
+    container_name: directus
+    image: directus/directus:latest
+    depends_on:
+      - database
+      - cache
+    ports:
+      - 8055:8055
+
+    env_file:
+      - config/.directus.env.example
+      - ./config/.directus.settings.env
+    environment:
+      CACHE_ENABLED: "true"
+      CACHE_STORE: "redis"
+      CACHE_REDIS: "redis://cache:6379"
+
+    # Uploads gets saved in uploads folder
+    volumes:
+      - uploads:/var/directus/uploads
+      - ./extensions:/directus/extensions
+
+    networks:
+      - database
+
+networks:
+  database:
+
+volumes:
+  dbdata:
+  uploads:
